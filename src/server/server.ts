@@ -11,7 +11,7 @@ configureRoutes(app);
 const distPath = path.resolve(__dirname, "../../dist");
 app.use(express.static(distPath));
 
-// SPA fallback
+// default to index.html for Router
 app.use((req: Request, res: Response) => {
   res.sendFile(path.join(distPath, "index.html"));
 });
