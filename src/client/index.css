@@ -1,6 +1,11 @@
-body,
-html {
-  margin: 0;
-  padding: 0;
-  font-family: monospace;
+/* Pico is imported in index.ts; this file customizes it. */
+
+:root {
+  --pico-font-family: monospace, ui-monospace, monospace;
+  --pico-font-family-monospace: monospace, ui-monospace, monospace;
+}
+
+html[data-theme="dark"],
+body {
+  font-family: var(--pico-font-family-monospace);
 }

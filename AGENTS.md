@@ -10,6 +10,7 @@ A starter template for **solid-vanilla**, a tiny (~200 lines) SolidJS-like react
 - **Express** for the API server (`src/server`)
 - **TypeScript** end-to-end, with typed client↔server bindings (`src/common`)
 - **Bun** as package manager / runtime for scripts
+- **Pico CSS** (`@picocss/pico`) for base styling — dark theme, monospaced font
 
 ## General code rules
 
@@ -91,6 +92,8 @@ Never hand-write fetch calls or route paths; always go through `ServerApi`/`fetc
 
 - No JSX — build UI with function calls only. Prefer the helper components (`vbox`, `hbox`, `grid`, `fragment`) over raw `h()` where they fit.
 - Styling is inline via `.css(...)`; shared constants (like `gap`) live in solid-vanilla's base components. Keep global styles minimal in `index.css`.
+- **Pico CSS**: imported in `src/client/index.ts` (`@picocss/pico/css/pico.min.css`); dark mode via `data-theme="dark"` on `<html>` in `index.html`; monospaced font via `--pico-font-family` overrides in `index.css`. Prefer Pico's semantic elements/variables over custom CSS; custom theming goes in `index.css`.
+- `tsconfig.json` has `"types": ["vite/client"]` — required for CSS side-effect imports to typecheck.
 - The dev server port is fixed at 5177 (`strictPort: true`) in both `vite.config.ts` and `src/server/server.ts` — keep them in sync.
 - `fragment()` renders a real `<div style="display:contents">`, so it's safe for list children.
 - Signals: `.set()` skips triggering when the value is identical (use `set(v, true)` to force). `signal()` without a type arg infers; optional values use `signal<string>()`.
