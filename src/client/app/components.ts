@@ -26,5 +26,5 @@ export const TextInput = (val: Signal<string>) =>
 export const NumberInput = (val: Signal<number>) =>
   h("input")
     .attr("type", "number")
-    .attr("value", () => `${val}`)
+    .attr("value", () => `${val.get()}`)
     .on("change", (event) => val.set(event.target.value));

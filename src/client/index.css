@@ -1,11 +1,21 @@
-/* Pico is imported in index.ts; this file customizes it. */
+/* Pico is imported in index.ts; this file customizes it.
+   Matches the styling used by deploy/my-sync-gmail pages. */
 
-:root {
-  --pico-font-family: monospace, ui-monospace, monospace;
-  --pico-font-family-monospace: monospace, ui-monospace, monospace;
+body {
+  padding: 20px;
 }
 
-html[data-theme="dark"],
-body {
-  font-family: var(--pico-font-family-monospace);
+table tbody {
+  white-space: nowrap;
+}
+
+.nowrap-inline {
+  padding: 4px;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.header-rule {
+  border-bottom: 1px solid;
+  margin: 20px 0;
 }
