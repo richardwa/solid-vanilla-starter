@@ -1,22 +1,29 @@
-import { div, fragment, grid, h, signal } from "solid-vanilla";
-import { NumberInput } from "./components";
+import { h, signal } from "solid-vanilla";
+import {
+  NumberInput,
+  Page,
+  Table,
+  TableHeader,
+  Td,
+  Tr,
+} from "solid-vanilla-ui";
 import { fetchJson, GitLog } from "../../common/interface";
 import { formatDate } from "../../common/util";
 
 const logRow = (log: GitLog) =>
-  h("tr").inner(
-    h("td").inner(log.commitHash.slice(0, 10)),
-    h("td").inner(formatDate(log.commitDate)),
-    h("td").inner(log.commitAuthor),
-    h("td").inner(log.commitMessage),
+  Tr(
+    Td(log.commitHash.slice(0, 10)),
+    Td(formatDate(log.commitDate)),
+    Td(log.commitAuthor),
+    Td(log.commitMessage),
   );
 
 export const GitDemo = () => {
   const maxLines = signal(5);
   const selectedBranch = signal<string>();
 
-  return div().inner(
-    // label above the textbox
+  return Page().inner(
+    // label above the number input
     h("div").inner(
       h("span").inner("log limit: "),
       NumberInput(maxLines).css("display", "block"),
@@ -27,30 +34,20 @@ export const GitDemo = () => {
       selectedBranch.set(branches[0]);
       node.inner(
         ...branches.map((branch) =>
-          h("span")
-            .cn("nowrap-inline")
-            .inner(
-              h("a")
-                .css("cursor", "pointer")
-                .css("font-weight", () =>
-                  selectedBranch.get() === branch ? "bold" : "normal",
-                )
-                .on("click", () => selectedBranch.set(branch))
-                .inner(`[ ${branch} ]`),
-            ),
+          h("a")
+            .css("cursor", "pointer")
+            .css("font-weight", () =>
+              selectedBranch.get() === branch ? "bold" : "normal",
+            )
+            .css("margin-right", "1rem")
+            .on("click", () => selectedBranch.set(branch))
+            .inner(branch),
         ),
       );
     }),
     h("br"),
-    h("table").inner(
-      h("thead").inner(
-        h("tr").inner(
-          h("th").inner("Commit"),
-          h("th").inner("Date"),
-          h("th").inner("Author"),
-          h("th").inner("Message"),
-        ),
-      ),
+    Table().inner(
+      TableHeader("Commit", "Date", "Author", "Message"),
       h("tbody").watch([maxLines, selectedBranch], (node) => {
         const branch = selectedBranch.get();
         if (branch) {

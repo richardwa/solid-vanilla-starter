@@ -1,3 +1,5 @@
+import { authHeader } from "solid-vanilla-ui";
+
 export const apiPath = "/api";
 
 export type GitLog = {
@@ -18,6 +20,9 @@ export const fetchJson = <T extends keyof ServerApi>(
 ) =>
   fetch(`${apiPath}/${key}`, {
     method: "post",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      ...(authHeader ? { Authorization: authHeader } : {}),
+    },
     body: JSON.stringify(params),
   }).then((res) => res.json()) as ReturnType<ServerApi[T]>;
